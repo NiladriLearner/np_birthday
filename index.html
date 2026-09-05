@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Niladri & Nikita • 25th Milestone</title>
+  <!-- Bengali Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      transition: background 1.2s ease, color 1.2s ease;
+    }
+    .calligraphy {
+      font-family: 'Galada', cursive;
+    }
+    .serif-display {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* High-clarity Frosted Glass Card */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 20px 45px -10px rgba(185, 28, 28, 0.12);
+    }
+    .glass-input {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(251, 113, 133, 0.4);
+    }
+
+    /* Ambient Rotations for Mandalas */
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spin-reverse {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .anim-spin-slow {
+      animation: spin-slow 60s linear infinite;
+    }
+    .anim-spin-reverse {
+      animation: spin-reverse 70s linear infinite;
+    }
+
+    /* True Terracotta Disc Matching Image */
+    .terracotta-frame {
+      border-radius: 9999px;
+      background: radial-gradient(circle, #ca5c3d 0%, #993b22 100%);
+      box-shadow: 0 16px 36px -8px rgba(120, 30, 15, 0.45);
+      border: 3px solid rgba(254, 215, 170, 0.4);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Hidden state on initial load / reload */
+    .side-element-hidden {
+      opacity: 0 !important;
+      transform: scale(0.5);
+      pointer-events: none;
+    }
+    .side-element-visible {
+      opacity: 1 !important;
+      transform: scale(1);
+    }
+
+    /* Cake Tiers Drop & Bounce Animations */
+    .cake-tier {
+      transition: all 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(-28px) scale(0.8);
+      opacity: 0;
+    }
+    .cake-tier.active {
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+    }
+
+    #runaway-btn {
+      transition: transform 0.25s ease-out, background-color 0.2s;
+    }
+
+    @keyframes steam {
+      0%, 100% { transform: translateY(0) scaleX(1); opacity: 0.35; }
+      50% { transform: translateY(-6px) scaleX(1.2); opacity: 0.8; }
+    }
+    .steam-anim {
+      animation: steam 2.4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body id="page-body" class="bg-[#fffdfa] text-stone-900 min-h-screen flex flex-col justify-between p-4 selection:bg-rose-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- ========================================================== -->
+  <!-- BACKGROUND FLOATING PARTICLES                              -->
+  <!-- ========================================================== -->
+  <div class="fixed top-12 left-1/4 w-2 h-2 rounded-full bg-rose-700/30 pointer-events-none"></div>
+  <div class="fixed top-28 left-1/3 w-1.5 h-1.5 rounded-full bg-amber-600/30 pointer-events-none"></div>
+  <div class="fixed bottom-20 left-1/2 w-2 h-2 rounded-full bg-rose-800/25 pointer-events-none"></div>
+  <div class="fixed top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-amber-500/30 pointer-events-none"></div>
+
+  <!-- ========================================================== -->
+  <!-- PERIMETER TERRACOTTA ALPONA CANVASES (HIDDEN ON RELOAD)    -->
+  <!-- ========================================================== -->
+  <!-- 1. Bottom-Left Major Anchor -->
+  <div id="alpona-unit-1" class="terracotta-frame side-element-hidden fixed -bottom-16 -left-16 w-64 h-64 z-10 pointer-events-none p-1.5 anim-spin-slow">
+    <canvas id="alp-canvas-1" width="300" height="300" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- 2. Bottom-Center/Lower Flank (Shifted Left) -->
+  <div id="alpona-unit-2" class="terracotta-frame side-element-hidden fixed -bottom-14 left-[22%] w-48 h-48 z-10 pointer-events-none p-1.5 anim-spin-reverse">
+    <canvas id="alp-canvas-2" width="300" height="300" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- 3. Lower-Right Border Flank -->
+  <div id="alpona-unit-3" class="terracotta-frame side-element-hidden fixed top-2/3 -right-14 w-56 h-56 z-10 pointer-events-none p-1.5 anim-spin-slow">
+    <canvas id="alp-canvas-3" width="300" height="300" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- 4. Mid-Right Edge Flank -->
+  <div id="alpona-unit-4" class="terracotta-frame side-element-hidden fixed top-1/3 -right-12 w-52 h-52 z-10 pointer-events-none p-1.5 anim-spin-reverse">
+    <canvas id="alp-canvas-4" width="300" height="300" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- 5. Top-Right Major Anchor -->
+  <div id="alpona-unit-5" class="terracotta-frame side-element-hidden fixed -top-16 -right-16 w-64 h-64 z-10 pointer-events-none p-1.5 anim-spin-slow">
+    <canvas id="alp-canvas-5" width="300" height="300" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- TOP HEADER -->
+  <header class="w-full max-w-xl mx-auto text-center pt-2 pb-1 relative z-20">
+    <div class="inline-block px-4 py-1 rounded-full bg-white/90 border border-rose-200 text-xs tracking-widest uppercase font-extrabold text-rose-700 shadow-sm backdrop-blur">
+      Niladri & Nikita • 25th Milestone
+    </div>
+  </header>
+
+  <!-- ========================================================== -->
+  <!-- MAIN WORKSPACE: DEAD-CENTER CARD + HIDDEN FAR LEFT CAKE    -->
+  <!-- ========================================================== -->
+  <div class="w-full max-w-7xl mx-auto my-auto py-2 relative z-20 flex items-center justify-center min-h-[580px]">
+
+    <!-- ========================================================== -->
+    <!-- LEFT SIDE: PROGRESSIVE BIRTHDAY CAKE (HIDDEN ON RELOAD)    -->
+    <!-- ========================================================== -->
+    <div id="cake-wrapper" class="side-element-hidden hidden xl:flex absolute left-4 2xl:left-10 flex-col items-center justify-center p-3 text-center z-10 transition-all duration-1000">
+      <div class="glass-panel rounded-3xl p-5 w-full max-w-[260px] flex flex-col items-center shadow-lg">
+        
+        <!-- Cake Stack Container -->
+        <div class="relative w-52 h-60 flex flex-col justify-end items-center pb-2">
+          
+          <!-- Topper (Tier 5) -->
+          <div id="cake-tier-5" class="cake-tier flex flex-col items-center mb-1">
+            <span class="text-xs font-black text-amber-500 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-full shadow-sm">👑 25</span>
+            <span class="text-sm">🕯️</span>
+          </div>
+
+          <!-- Tier 4: Gold Pearls & Rose Glaze -->
+          <div id="cake-tier-4" class="cake-tier w-24 h-6 rounded-t-lg bg-gradient-to-r from-rose-300 via-pink-300 to-rose-300 border border-rose-400 shadow-sm flex items-center justify-around px-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
+          </div>
+
+          <!-- Tier 3: Chocolate Drizzle -->
+          <div id="cake-tier-3" class="cake-tier w-32 h-7 rounded-t-lg bg-gradient-to-r from-amber-800 via-amber-900 to-amber-800 border border-amber-950 shadow-sm flex items-center justify-around px-3">
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
+          </div>
+
+          <!-- Tier 2: Strawberry Cream -->
+          <div id="cake-tier-2" class="cake-tier w-40 h-9 rounded-t-lg bg-gradient-to-r from-rose-400 via-pink-400 to-rose-400 border border-rose-500 shadow-sm flex items-center justify-around px-4">
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+          </div>
+
+          <!-- Tier 1: Vanilla Sponge Foundation -->
+          <div id="cake-tier-1" class="cake-tier w-48 h-11 rounded-t-lg bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-100 border border-amber-300 shadow-md flex items-center justify-around px-5">
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+          </div>
+
+          <!-- Base Pedestal Platter -->
+          <div class="w-52 h-3 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 rounded-full border-2 border-amber-400 shadow-md"></div>
+          <div class="w-20 h-3.5 bg-amber-400/80 rounded-b-lg border border-amber-500"></div>
+        </div>
+
+        <div class="text-xs font-bold text-rose-800 uppercase tracking-wider bg-rose-50 border border-rose-200 px-3 py-1 rounded-full shadow-sm mt-2">
+          ৫-লেয়ার বার্থডে কেক
+        </div>
+        <p class="text-xs font-medium text-stone-600 mt-1">
+          প্রতিটি সঠিক উত্তরে কেক তৈরি হচ্ছে 🎂
+        </p>
+      </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- DEAD CENTER: ONLY INTERACTIVE GLASS CARD ON RELOAD        -->
+    <!-- ========================================================== -->
+    <main class="w-full max-w-lg mx-auto relative z-20">
+
+      <!-- STAGE 0: LOGIN GATE -->
+      <section id="stage-login" class="glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6 relative overflow-hidden">
+        <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 border-2 border-rose-300 flex items-center justify-center text-3xl shadow-inner">
+          🔐
+        </div>
+        
+        <div class="space-y-2">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
+            স্বাগতম, Nikita!
+          </h1>
+          <p class="text-base sm:text-lg text-stone-700 font-semibold leading-relaxed">
+            তোমার ২৫তম জন্মদিনের ভালোবাসার ডায়েরি খুলতে সিক্রেট পাসকোডটি লেখো:
+          </p>
+        </div>
+
+        <form id="login-form" class="space-y-4 max-w-sm mx-auto relative min-h-[160px]">
+          <input 
+            id="passcode-input" 
+            type="password" 
+            placeholder="Passcode লিখুন..." 
+            class="glass-input w-full px-4 py-3 rounded-2xl text-base text-center tracking-widest font-bold text-stone-800 focus:outline-none focus:border-rose-500 shadow-inner"
+            required
+          />
+
+          <button 
+            id="runaway-btn"
+            type="submit" 
+            class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 font-bold text-sm tracking-wider uppercase text-white shadow-lg shadow-rose-600/30 active:scale-[0.98]">
+            ভেরিফাই করুন ❯
+          </button>
+
+          <p id="tease-prompt" class="text-xs font-bold text-rose-600 min-h-[20px] transition-all"></p>
+          <p id="login-err" class="text-sm font-bold text-rose-600 hidden">ভুল পাসকোড! আরেকবার চেষ্টা করো ❤️</p>
+        </form>
+      </section>
+
+      <!-- STAGE 1: TIME-LOCKED WAITING ROOM -->
+      <section id="stage-waiting" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6">
+        <div class="space-y-3">
+          <div class="w-20 h-20 mx-auto rounded-2xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-3xl shadow-inner">
+            ⏳
+          </div>
+          
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
+            স্বাগতম, Nikita!
+          </h2>
+          
+          <p class="text-base sm:text-lg text-stone-700 font-semibold leading-relaxed px-1">
+            তুমি সফলভাবে ভেরিফায়েড। Niladri তোমার জন্য একটা বিশেষ আয়োজন সাজিয়ে রেখেছে, কিন্তু ঘড়ির কাঁটা ১২টা না ছোঁয়া পর্যন্ত আসল সিন্দুক তালাবন্ধ!
+          </p>
+
+          <p class="text-sm text-rose-600 font-bold">
+            ২৫-এ পা রাখার আগে তর সইছে না তো? একটু ধৈর্য ধরো—অপেক্ষার ফল নাকি মিষ্টির চেয়েও মিষ্টি হয়! 🍰✨
+          </p>
+        </div>
+
+        <!-- Live Countdown Grid -->
+        <div class="grid grid-cols-4 gap-2.5 text-center pt-1">
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="days" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Days</span>
+          </div>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="hours" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Hours</span>
+          </div>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="minutes" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Mins</span>
+          </div>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="seconds" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Secs</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 pt-1 text-xs font-bold text-rose-800">
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>পায়েস পর্ব</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>স্মৃতি ও ধাঁধা</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>সেরা উপহার</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STAGE 2: PAYESH RITUAL -->
+      <section id="stage-payesh" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6">
+        <div class="space-y-3">
+          <div class="inline-block px-4 py-1.5 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-base font-bold">
+            শুভ ২৫তম জন্মদিন, Nikita! 🌸
+          </div>
+          
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
+            আগে একটু পায়েস মুখ করো
+          </h2>
+          
+          <p class="text-base sm:text-lg text-stone-700 font-semibold max-w-md mx-auto leading-relaxed">
+            তোমার ২৫তম জন্মদিনের শুরুতে Niladri-র পক্ষ থেকে এই ঐতিহ্যবাহী মাটির বাটির তৈরি পায়েস।
+          </p>
+        </div>
+
+        <!-- Pure Terracotta Clay Pot -->
+        <div class="py-2 flex flex-col items-center justify-center">
+          <div class="flex gap-3 text-stone-400 text-base mb-1 steam-anim select-none font-mono">
+            <span>~</span><span>~</span><span>~</span>
+          </div>
+          <div class="w-36 h-24 bg-gradient-to-b from-[#a44222] to-[#6d250e] rounded-b-[80px] rounded-t-xl border-4 border-[#4a1708] shadow-2xl relative flex items-center justify-center">
+            <div class="absolute top-1.5 w-32 h-7 bg-[#fff8ea] rounded-full border-2 border-amber-300 flex items-center justify-center gap-2 shadow-inner">
+              <div class="w-2.5 h-1.5 bg-amber-700 rounded-full rotate-12"></div>
+              <div class="w-2 h-2 bg-amber-600 rounded-full"></div>
+              <div class="w-2.5 h-1.5 bg-amber-700 rounded-full -rotate-12"></div>
+            </div>
+            <span class="text-3xl pt-2">🥄</span>
+          </div>
+          <div class="w-44 h-3 bg-[#8b3519] border-t-2 border-[#541e0d] rounded-full mt-1"></div>
+        </div>
+
+        <button 
+          onclick="goToWordGame()" 
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 text-white font-extrabold text-base tracking-wide shadow-xl shadow-rose-500/30 active:scale-[0.98] transition">
+          পায়েস খাওয়া শেষ? Let’s Play ❯
+        </button>
+      </section>
+
+      <!-- STAGE 3: ONE-CARD-AT-A-TIME QUIZ -->
+      <section id="stage-game" class="hidden space-y-4">
+        
+        <!-- Pinned Top Declaration -->
+        <div class="glass-panel rounded-2xl p-4 text-center space-y-1">
+          <span class="text-[11px] uppercase font-extrabold tracking-widest text-rose-700">The Secret Sentence</span>
+          <div id="sentence-preview" class="text-xs sm:text-sm font-black font-mono tracking-wider text-stone-600 leading-relaxed">
+            FROM HATGACCHA TO BAGNAN: _ _ _ _ _ _ IS _ _ _ _ _ _ _'S FOREVER NUMBER _ _ _
+          </div>
+          <div class="w-full bg-rose-200/80 rounded-full h-1.5 mt-2 overflow-hidden">
+            <div id="progress-bar" class="bg-rose-600 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Active Single Card -->
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-5 text-center">
+          
+          <div class="flex items-center justify-between border-b border-rose-200/80 pb-2">
+            <span id="quiz-step-label" class="text-xs font-bold text-rose-600 uppercase tracking-wider">প্রশ্ন ১ / ৫</span>
+            <span class="text-xs font-bold text-stone-500">Niladri & Nikita Special</span>
+          </div>
+
+          <div class="w-20 h-20 mx-auto rounded-3xl bg-rose-100/90 border-2 border-rose-200 shadow-sm flex items-center justify-center text-4xl">
+            <span id="card-icon">🎓</span>
+          </div>
+
+          <p id="card-question" class="text-base sm:text-lg text-stone-900 font-bold leading-relaxed px-1">
+            Hatgachha-র সেই মেয়েটি, যে Ballygunge Science College-এ Zoology পড়ে আজ Niladri-র গোটা পৃথিবী:
+          </p>
+
+          <div class="space-y-3 max-w-sm mx-auto">
+            <input 
+              id="card-input" 
+              type="text" 
+              class="glass-input w-full px-4 py-3 rounded-2xl text-center uppercase tracking-widest font-extrabold text-stone-900 focus:outline-none focus:border-rose-500 text-sm shadow-inner"
+              placeholder="6 Letters (N _ _ _ _ _)" 
+              maxlength="6"
+            />
+            <button 
+              id="card-btn"
+              onclick="submitCurrentCard()" 
+              class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:brightness-105 text-white text-sm font-extrabold tracking-wider transition shadow-md shadow-rose-400/30">
+              উত্তর চেক করুন ❯
+            </button>
+            <p id="card-feedback" class="text-xs font-bold text-emerald-600 hidden">একদম ঠিক উত্তর! ❤️</p>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- STAGE 4: CADBURY CELEBRATIONS FINALE -->
+      <section id="stage-cadbury" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6 border-2 border-amber-300">
+        
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-rose-600">Champion Prize Unlocked</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold serif-display text-rose-900">
+            Happy 25th Birthday, Nikita!
+          </h2>
+          <p class="text-sm sm:text-base text-rose-700 font-bold tracking-wide">
+            "FROM HATGACCHA TO BAGNAN: NIKITA IS NILADRI'S FOREVER NUMBER ONE"
+          </p>
+        </div>
+
+        <!-- Cadbury Box Graphic -->
+        <div id="cadbury-box-wrap" onclick="openCelebrationsGift()" class="cursor-pointer group relative max-w-[220px] mx-auto py-2 transition transform hover:scale-105">
+          <div class="bg-gradient-to-br from-[#531799] to-[#250047] border-2 border-amber-300 p-5 rounded-3xl shadow-2xl flex flex-col items-center justify-center space-y-2 text-white">
+            <div class="text-5xl group-hover:scale-110 transition">🎁</div>
+            <div class="serif-display text-amber-300 font-bold text-lg tracking-wide">
+              Cadbury
+            </div>
+            <div class="text-[10px] uppercase tracking-widest font-black text-amber-200 bg-amber-400/25 px-2.5 py-0.5 rounded">
+              Celebrations
+            </div>
+          </div>
+          <p id="box-instruction" class="text-xs text-rose-700 mt-3 underline font-bold">Tap to open your Celebrations box</p>
+        </div>
+
+        <div id="gift-message" class="hidden p-5 rounded-2xl bg-white/95 border border-rose-300 space-y-2 text-center shadow-md">
+          <p class="text-base sm:text-lg font-bold text-rose-800 leading-snug">
+            ✨ Biriyani আর Fuchka তো থাকবেই, কিন্তু আজকের রাতটা শুরু হোক একটু চকোলেট দিয়ে...
+          </p>
+          <p class="text-sm text-stone-800 leading-relaxed font-semibold">
+            Screen-এর মিষ্টি শেষ! এবার পাশে ফিরে Niladri-র থেকে তোমার আসল <strong>Cadbury Celebrations</strong>-এর বাক্সটা চেয়ে নাও! 🍫❤️
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <footer class="w-full text-center pb-2 text-xs text-stone-500 font-medium relative z-20">
+    Crafted with ❤️ by Niladri for Nikita’s 25th
+  </footer>
+
+  <script>
+    // ==========================================================
+    // 1. INTRICATE CANVAS ALPONA RENDERER (ALL 5 CANVASES)
+    // ==========================================================
+    const alponaCanvases = [
+      document.getElementById("alp-canvas-1"),
+      document.getElementById("alp-canvas-2"),
+      document.getElementById("alp-canvas-3"),
+      document.getElementById("alp-canvas-4"),
+      document.getElementById("alp-canvas-5")
+    ];
+
+    function drawSingleMandala(actx, stage) {
+      const cx = 150;
+      const cy = 150;
+
+      actx.clearRect(0, 0, 300, 300);
+      actx.save();
+      actx.lineCap = "round";
+      actx.lineJoin = "round";
+
+      // Base linework styling
+      actx.strokeStyle = "#ffffff";
+      actx.lineWidth = 1.8;
+
+      // --- CORE SEED (Center Rings & Beads) ---
+      actx.beginPath();
+      actx.arc(cx, cy, 6, 0, Math.PI * 2);
+      actx.stroke();
+
+      actx.beginPath();
+      actx.arc(cx, cy, 14, 0, Math.PI * 2);
+      actx.stroke();
+
+      const coreBeads = 12;
+      for (let i = 0; i < coreBeads; i++) {
+        const a = (i * 2 * Math.PI) / coreBeads;
+        const bx = cx + Math.cos(a) * 19;
+        const by = cy + Math.sin(a) * 19;
+        actx.beginPath();
+        actx.arc(bx, by, 3, 0, Math.PI * 2);
+        actx.stroke();
+      }
+
+      // --- STAGE 1: RADIAL LOTUS TEARDROPS (R = 24 to 46) ---
+      if (stage >= 1) {
+        const petals = 12;
+        for (let i = 0; i < petals; i++) {
+          const a = (i * 2 * Math.PI) / petals;
+          actx.save();
+          actx.translate(cx, cy);
+          actx.rotate(a);
+
+          // Outer teardrop petal
+          actx.beginPath();
+          actx.moveTo(-5, 23);
+          actx.quadraticCurveTo(-9, 36, 0, 47);
+          actx.quadraticCurveTo(9, 36, 5, 23);
+          actx.stroke();
+
+          // Inner contour loop
+          actx.beginPath();
+          actx.moveTo(-2.5, 26);
+          actx.quadraticCurveTo(-4.5, 35, 0, 42);
+          actx.quadraticCurveTo(4.5, 35, 2.5, 26);
+          actx.stroke();
+
+          actx.restore();
+        }
+
+        actx.beginPath();
+        actx.arc(cx, cy, 50, 0, Math.PI * 2);
+        actx.stroke();
+      }
+
+      // --- STAGE 2: ARCHED CRESTS WITH EYE EMBLEMS (R = 52 to 74) ---
+      if (stage >= 2) {
+        const crests = 12;
+        for (let i = 0; i < crests; i++) {
+          const a = (i * 2 * Math.PI) / crests;
+          actx.save();
+          actx.translate(cx, cy);
+          actx.rotate(a);
+
+          // Outer bell arch
+          actx.beginPath();
+          actx.moveTo(-11, 51);
+          actx.quadraticCurveTo(-15, 64, 0, 75);
+          actx.quadraticCurveTo(15, 64, 11, 51);
+          actx.stroke();
+
+          // Inner bell arch
+          actx.beginPath();
+          actx.moveTo(-6.5, 53);
+          actx.quadraticCurveTo(-9, 62, 0, 68);
+          actx.quadraticCurveTo(9, 62, 6.5, 53);
+          actx.stroke();
+
+          // Center floating eye bead
+          actx.beginPath();
+          actx.arc(0, 60, 2.8, 0, Math.PI * 2);
+          actx.fillStyle = "#ffffff";
+          actx.fill();
+
+          actx.restore();
+        }
+
+        // Mid double-band
+        actx.beginPath();
+        actx.arc(cx, cy, 79, 0, Math.PI * 2);
+        actx.stroke();
+
+        actx.beginPath();
+        actx.arc(cx, cy, 84, 0, Math.PI * 2);
+        actx.stroke();
+      }
+
+      // --- STAGE 3: INTERLOCKING SCALLOPED PETAL BORDERS (R = 86 to 106) ---
+      if (stage >= 3) {
+        const scallops = 16;
+        for (let i = 0; i < scallops; i++) {
+          const a = (i * 2 * Math.PI) / scallops;
+          actx.save();
+          actx.translate(cx, cy);
+          actx.rotate(a);
+
+          // Double-lobed scalloped mantle
+          actx.beginPath();
+          actx.moveTo(-13, 85);
+          actx.quadraticCurveTo(-15, 96, -7, 102);
+          actx.quadraticCurveTo(0, 94, 7, 102);
+          actx.quadraticCurveTo(15, 96, 13, 85);
+          actx.stroke();
+
+          // Inner floral spearhead
+          actx.beginPath();
+          actx.moveTo(0, 87);
+          actx.lineTo(0, 97);
+          actx.stroke();
+
+          actx.restore();
+        }
+
+        actx.beginPath();
+        actx.arc(cx, cy, 108, 0, Math.PI * 2);
+        actx.stroke();
+      }
+
+      // --- STAGE 4: CONTINUOUS WAVED BORDER & PEARLS (R = 109 to 123) ---
+      if (stage >= 4) {
+        const outerWaves = 24;
+        for (let i = 0; i < outerWaves; i++) {
+          const a = (i * 2 * Math.PI) / outerWaves;
+          actx.save();
+          actx.translate(cx, cy);
+          actx.rotate(a);
+
+          // Arch wave
+          actx.beginPath();
+          actx.arc(0, 114, 7.5, Math.PI, 0, false);
+          actx.stroke();
+
+          // Mini petal bead
+          actx.beginPath();
+          actx.arc(0, 114, 2, 0, Math.PI * 2);
+          actx.stroke();
+
+          actx.restore();
+        }
+
+        actx.beginPath();
+        actx.arc(cx, cy, 125, 0, Math.PI * 2);
+        actx.stroke();
+      }
+
+      // --- STAGE 5: GRAND PALMETTE CREST & TREFOIL BUDS (R = 126 to 148) ---
+      if (stage >= 5) {
+        const palmettes = 18;
+        for (let i = 0; i < palmettes; i++) {
+          const a = (i * 2 * Math.PI) / palmettes;
+          actx.save();
+          actx.translate(cx, cy);
+          actx.rotate(a);
+
+          // Center central tip petal
+          actx.beginPath();
+          actx.moveTo(0, 126);
+          actx.quadraticCurveTo(-4, 137, 0, 147);
+          actx.quadraticCurveTo(4, 137, 0, 126);
+          actx.stroke();
+
+          // Left floret wing
+          actx.beginPath();
+          actx.moveTo(-2, 126);
+          actx.quadraticCurveTo(-9, 133, -7, 142);
+          actx.quadraticCurveTo(-3, 138, 0, 126);
+          actx.stroke();
+
+          // Right floret wing
+          actx.beginPath();
+          actx.moveTo(2, 126);
+          actx.quadraticCurveTo(9, 133, 7, 142);
+          actx.quadraticCurveTo(3, 138, 0, 126);
+          actx.stroke();
+
+          actx.restore();
+        }
+      }
+
+      actx.restore();
+    }
+
+    function renderAllMandalas(stage) {
+      alponaCanvases.forEach(canvas => {
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        drawSingleMandala(ctx, stage);
+      });
+    }
+
+    // ==========================================================
+    // 2. REVEAL SIDE ELEMENTS AFTER AUTHENTICATION
+    // ==========================================================
+    function revealSideElements() {
+      // Reveal 5 Alpona Canvases
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`alpona-unit-${i}`);
+        if (el) {
+          el.classList.remove("side-element-hidden");
+          el.classList.add("side-element-visible");
+        }
+      }
+      // Reveal Cake
+      const cake = document.getElementById("cake-wrapper");
+      if (cake) {
+        cake.classList.remove("side-element-hidden");
+        cake.classList.add("side-element-visible");
+      }
+    }
+
+    // ==========================================================
+    // 3. PROGRESSIVE CAKE TIER CONTROLLER
+    // ==========================================================
+    function setCakeStage(stage) {
+      for (let i = 1; i <= 5; i++) {
+        const tier = document.getElementById(`cake-tier-${i}`);
+        if (!tier) continue;
+        if (i <= stage) {
+          tier.classList.add("active");
+        } else {
+          tier.classList.remove("active");
+        }
+      }
+    }
+
+    // Synchronize both cake tiers & Alponas
+    function syncAllVisualProgress(stage) {
+      renderAllMandalas(stage);
+      setCakeStage(stage);
+    }
+
+    // Initialize all with seed state (stage 0)
+    syncAllVisualProgress(0);
+
+    // ==========================================================
+    // 4. CONFIGURATION & TIME-GATE LOGIC
+    // ==========================================================
+    const SECRET_KEY = "love";
+    const TARGET_DATE = new Date("2026-09-05T00:00:00+05:30").getTime(); // Midnight IST
+
+    let clockTimer = null;
+    let unlocked = false;
+
+    // --- RUNAWAY BUTTON LOGIC (AFTER PASSCODE ENTRY ONLY) ---
+    let dodgeCount = 0;
+    const maxDodges = 5;
+    const runawayBtn = document.getElementById("runaway-btn");
+    const teasePrompt = document.getElementById("tease-prompt");
+    const passInput = document.getElementById("passcode-input");
+    const loginStage = document.getElementById("stage-login");
+    const waitingStage = document.getElementById("stage-waiting");
+    const loginForm = document.getElementById("login-form");
+    const loginErr = document.getElementById("login-err");
+
+    const wittyRemarks = [
+      "পাসকোড ঠিক, কিন্তু ধরা এত সহজ নয়! 😜",
+      "ঘড়ির কাঁটা ১২টা বাজুক আগে! পালাচ্ছি... 🏃‍♀️",
+      "উফ্! এত তাড়া কিসের? আর কিছুক্ষণ ধৈর্য ধরো! ⏳",
+      "Niladri বলেছে ১২টার আগে এন্ট্রি পাওয়া বারণ! 🤫",
+      "লাস্ট সুযোগ... এবার ধরে ক্লিক করে দেখাও! 🍰"
+    ];
+
+    function isPasswordCorrect() {
+      return passInput.value.trim().toLowerCase() === SECRET_KEY.toLowerCase();
+    }
+
+    function dodgeButton() {
+      const now = Date.now();
+      if (isPasswordCorrect() && now < TARGET_DATE && dodgeCount < maxDodges) {
+        loginErr.classList.add("hidden");
+        const xOffset = (Math.random() - 0.5) * 230;
+        const yOffset = (Math.random() - 0.5) * 100;
+        
+        runawayBtn.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        teasePrompt.innerText = wittyRemarks[dodgeCount % wittyRemarks.length];
+        dodgeCount++;
+
+        if (dodgeCount === maxDodges) {
+          setTimeout(() => {
+            teasePrompt.innerText = "ঠিক আছে, ধরা দিলাম! এবার ক্লিক করে ভেতরে এসো... ❤️";
+            runawayBtn.style.transform = "translate(0px, 0px)";
+          }, 700);
+        }
+      }
+    }
+
+    runawayBtn.addEventListener("mouseenter", dodgeButton);
+    runawayBtn.addEventListener("touchstart", (e) => {
+      if (isPasswordCorrect() && Date.now() < TARGET_DATE && dodgeCount < maxDodges) {
+        e.preventDefault();
+        dodgeButton();
+      }
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (!isPasswordCorrect()) {
+        loginErr.classList.remove("hidden");
+        teasePrompt.innerText = "";
+        return;
+      }
+
+      if (Date.now() < TARGET_DATE && dodgeCount < maxDodges) {
+        dodgeButton();
+        return;
+      }
+
+      // Hide login gate and smoothly reveal the decorative side elements
+      loginStage.classList.add("hidden");
+      revealSideElements();
+      evaluateTimeGate();
+    });
+
+    function evaluateTimeGate() {
+      const now = Date.now();
+      if (now >= TARGET_DATE) {
+        unlockPayeshStage();
+      } else {
+        waitingStage.classList.remove("hidden");
+        updateClock();
+        clockTimer = setInterval(updateClock, 1000);
+      }
+    }
+
+    function updateClock() {
+      const now = Date.now();
+      const diff = TARGET_DATE - now;
+
+      if (diff <= 0) {
+        clearInterval(clockTimer);
+        unlockPayeshStage();
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = String(d).padStart(2, "0");
+      document.getElementById("hours").innerText = String(h).padStart(2, "0");
+      document.getElementById("minutes").innerText = String(m).padStart(2, "0");
+      document.getElementById("seconds").innerText = String(s).padStart(2, "0");
+    }
+
+    // ==========================================================
+    // 5. STAGE 2: PAYESH RITUAL
+    // ==========================================================
+    function unlockPayeshStage() {
+      if (unlocked) return;
+      unlocked = true;
+
+      waitingStage.classList.add("hidden");
+      document.getElementById("stage-payesh").classList.remove("hidden");
+      
+      // Bloom Stage 1 on all Alponas & drop first cake tier
+      syncAllVisualProgress(1);
+      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+    }
+
+    function goToWordGame() {
+      document.getElementById("stage-payesh").classList.add("hidden");
+      document.getElementById("stage-game").classList.remove("hidden");
+      loadCard(0);
+    }
+
+    // ==========================================================
+    // 6. ONE-BY-ONE QUIZ CARDS
+    // ==========================================================
+    const quizData = [
+      {
+        step: "প্রশ্ন ১ / ৫",
+        question: "১. Hatgachha-র সেই মেয়েটি, যে Ballygunge Science College-এ Zoology পড়ে আজ Niladri-র গোটা পৃথিবী:",
+        placeholder: "6 Letters (N _ _ _ _ _)",
+        maxlength: 6,
+        answer: "NIKITA",
+        icon: "🎓"
+      },
+      {
+        step: "প্রশ্ন ২ / ৫",
+        question: "২. শীতের রাতে সাতপাকে বাঁধা পড়ার শুভ দিন—January-র কত তারিখ?",
+        placeholder: "2 Digits (2 _)",
+        maxlength: 2,
+        answer: "24",
+        icon: "💍"
+      },
+      {
+        step: "প্রশ্ন ৩ / ৫",
+        question: "৩. Bagnan-এর বাড়ি হোক বা Uluberia Raas Mela-র ভিড়—যে খাবারের প্লেট দেখলে তোমার চোখ চকচক করে ওঠে:",
+        placeholder: "6 Letters (F _ _ _ _ _)",
+        maxlength: 6,
+        answer: "FUCHKA",
+        icon: "🍽️"
+      },
+      {
+        step: "প্রশ্ন ৪ / ৫",
+        question: "৪. যেকোনো তর্কে Nikita একমত না হলে Niladri-র জেতার সম্ভাবনা শতকরা কত?",
+        placeholder: "4 Letters (Z _ _ _)",
+        maxlength: 4,
+        answer: "ZERO",
+        icon: "🏳️"
+      },
+      {
+        step: "প্রশ্ন ৫ / ৫",
+        question: "৫. বিয়ে, বন্ধুত্ব আর জীবনের মঞ্চে—Nikita চিরকাল Niladri-র জীবনে ঠিক কত নম্বরে?",
+        placeholder: "3 Letters (O _ _)",
+        maxlength: 3,
+        answer: "ONE",
+        icon: "👑"
+      }
+    ];
+
+    let currentCardIndex = 0;
+
+    function loadCard(index) {
+      const data = quizData[index];
+      document.getElementById("quiz-step-label").innerText = data.step;
+      document.getElementById("card-question").innerText = data.question;
+      document.getElementById("card-icon").innerText = data.icon;
+
+      const input = document.getElementById("card-input");
+      input.value = "";
+      input.placeholder = data.placeholder;
+      input.maxLength = data.maxlength;
+      input.classList.remove("border-rose-500", "border-emerald-500", "bg-emerald-50");
+      document.getElementById("card-feedback").classList.add("hidden");
+    }
+
+    function submitCurrentCard() {
+      const input = document.getElementById("card-input");
+      const userVal = input.value.trim().toUpperCase();
+      const current = quizData[currentCardIndex];
+
+      if (userVal === current.answer) {
+        input.classList.add("border-emerald-500", "bg-emerald-50");
+        document.getElementById("card-feedback").classList.remove("hidden");
+
+        confetti({ particleCount: 25, spread: 60, origin: { y: 0.65 } });
+
+        currentCardIndex++;
+        
+        // Progressively bloom all perimeter Alponas & stack cake tiers together
+        syncAllVisualProgress(currentCardIndex);
+        updateTopSentence();
+
+        setTimeout(() => {
+          if (currentCardIndex < quizData.length) {
+            loadCard(currentCardIndex);
+          } else {
+            unlockCadburyCelebrations();
+          }
+        }, 900);
+
+      } else {
+        input.classList.add("border-rose-500", "animate-pulse");
+        setTimeout(() => input.classList.remove("animate-pulse"), 800);
+      }
+    }
+
+    function updateTopSentence() {
+      const progressPercent = (currentCardIndex / quizData.length) * 100;
+      document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+
+      const preview = document.getElementById("sentence-preview");
+      if (currentCardIndex === 1) {
+        preview.innerText = "FROM HATGACCHA TO BAGNAN: NIKITA IS _ _ _ _ _ _ _'S FOREVER NUMBER _ _ _";
+      } else if (currentCardIndex === 2) {
+        preview.innerText = "FROM HATGACCHA TO BAGNAN: NIKITA IS NILADRI'S FOREVER NUMBER _ _ _";
+      } else if (currentCardIndex === 3) {
+        preview.innerText = "FROM HATGACCHA TO BAGNAN: NIKITA (THE FUCHKA QUEEN) IS NILADRI'S FOREVER NUMBER _ _ _";
+      } else if (currentCardIndex === 4) {
+        preview.innerText = "FROM HATGACCHA TO BAGNAN: NIKITA (ARGUMENTS WON: 100%) IS NILADRI'S FOREVER NUMBER _ _ _";
+      } else if (currentCardIndex === 5) {
+        preview.innerText = "FROM HATGACCHA TO BAGNAN: NIKITA IS NILADRI'S FOREVER NUMBER ONE";
+        preview.classList.remove("text-stone-500");
+        preview.classList.add("text-rose-700", "font-black");
+      }
+    }
+
+    // ==========================================================
+    // 7. CADBURY CELEBRATIONS FINALE
+    // ==========================================================
+    function unlockCadburyCelebrations() {
+      document.getElementById("stage-game").classList.add("hidden");
+      document.getElementById("stage-cadbury").classList.remove("hidden");
+      
+      // Full bloom across all Alponas & completed cake
+      syncAllVisualProgress(5);
+      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+    }
+
+    function openCelebrationsGift() {
+      document.getElementById("box-instruction").classList.add("hidden");
+      document.getElementById("gift-message").classList.remove("hidden");
+      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+    }
+
+    function launchConfetti(colors) {
+      const end = Date.now() + 3000;
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.8 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.8 },
+          colors: colors
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+  </script>
+</body>
+</html>
