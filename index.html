@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Niladri & Nikita • 25th Milestone</title>
   <!-- Bengali Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,6 @@
     body {
       font-family: 'Hind Siliguri', sans-serif;
       transition: background 1.2s ease, color 1.2s ease;
-      touch-action: manipulation;
     }
     .calligraphy {
       font-family: 'Galada', cursive;
@@ -28,20 +27,19 @@
 
     /* High-clarity Frosted Glass Card */
     .glass-panel {
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1.5px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 16px 36px -10px rgba(185, 28, 28, 0.12);
+      box-shadow: 0 20px 45px -10px rgba(190, 24, 93, 0.15);
     }
     .glass-input {
       background: rgba(255, 255, 255, 0.95);
-      font-size: 16px !important; /* Prevents auto-zoom on mobile safari */
       backdrop-filter: blur(8px);
       border: 1.5px solid rgba(251, 113, 133, 0.4);
     }
 
-    /* Rotations for Mandalas */
+    /* Ambient Rotations for Mandalas */
     @keyframes spin-slow {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -57,19 +55,19 @@
       animation: spin-reverse 70s linear infinite;
     }
 
-    /* Mobile Terracotta Disc Container */
+    /* Royal Pink Disc Frame */
     .terracotta-frame {
       border-radius: 9999px;
-      background: radial-gradient(circle, #ca5c3d 0%, #993b22 100%);
-      box-shadow: 0 10px 24px -6px rgba(120, 30, 15, 0.4);
-      border: 2px solid rgba(254, 215, 170, 0.4);
+      background: radial-gradient(circle, #e11d48 0%, #be185d 55%, #831843 100%);
+      box-shadow: 0 16px 36px -8px rgba(131, 24, 67, 0.45);
+      border: 3px solid rgba(254, 205, 211, 0.5);
       transition: opacity 1s ease, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* Hidden state on reload */
+    /* Hidden state on initial load / reload */
     .side-element-hidden {
       opacity: 0 !important;
-      transform: scale(0.4);
+      transform: scale(0.5);
       pointer-events: none;
     }
     .side-element-visible {
@@ -77,10 +75,10 @@
       transform: scale(1);
     }
 
-    /* Compact Cake Tiers Animation */
+    /* Cake Tiers Drop & Bounce Animations */
     .cake-tier {
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform: translateY(-20px) scale(0.75);
+      transition: all 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(-28px) scale(0.8);
       opacity: 0;
     }
     .cake-tier.active {
@@ -89,290 +87,305 @@
     }
 
     #runaway-btn {
-      transition: transform 0.22s ease-out, background-color 0.2s;
+      transition: transform 0.25s ease-out, background-color 0.2s;
     }
 
     @keyframes steam {
       0%, 100% { transform: translateY(0) scaleX(1); opacity: 0.35; }
-      50% { transform: translateY(-5px) scaleX(1.2); opacity: 0.8; }
+      50% { transform: translateY(-6px) scaleX(1.2); opacity: 0.8; }
     }
     .steam-anim {
       animation: steam 2.4s infinite ease-in-out;
     }
   </style>
 </head>
-<body id="page-body" class="bg-[#fffdfa] text-stone-900 min-h-screen flex flex-col justify-between p-3 selection:bg-rose-500 selection:text-white relative overflow-x-hidden">
+<body id="page-body" class="bg-[#fffdfa] text-stone-900 min-h-screen flex flex-col justify-between p-4 selection:bg-rose-500 selection:text-white relative overflow-x-hidden">
 
   <!-- ========================================================== -->
-  <!-- SUBTLE BACKGROUND PARTICLES                                -->
+  <!-- BACKGROUND FLOATING PARTICLES                              -->
   <!-- ========================================================== -->
-  <div class="fixed top-12 left-1/4 w-1.5 h-1.5 rounded-full bg-rose-700/30 pointer-events-none"></div>
-  <div class="fixed top-28 right-1/4 w-1.5 h-1.5 rounded-full bg-amber-600/30 pointer-events-none"></div>
-  <div class="fixed bottom-20 left-1/2 w-1.5 h-1.5 rounded-full bg-rose-800/25 pointer-events-none"></div>
+  <div class="fixed top-12 left-1/4 w-2 h-2 rounded-full bg-rose-700/30 pointer-events-none"></div>
+  <div class="fixed top-28 left-1/3 w-1.5 h-1.5 rounded-full bg-amber-600/30 pointer-events-none"></div>
+  <div class="fixed bottom-20 left-1/2 w-2 h-2 rounded-full bg-rose-800/25 pointer-events-none"></div>
+  <div class="fixed top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-amber-500/30 pointer-events-none"></div>
 
   <!-- ========================================================== -->
-  <!-- MOBILE PERIMETER ALPONAS (SCALED FOR PHONES)               -->
+  <!-- PERIMETER ROYAL PINK ALPONA CANVASES (HIDDEN ON RELOAD)    -->
   <!-- ========================================================== -->
-  <!-- 1. Bottom-Left Anchor -->
-  <div id="alpona-unit-1" class="terracotta-frame side-element-hidden fixed -bottom-10 -left-10 w-36 h-36 z-10 pointer-events-none p-1 anim-spin-slow">
+  <!-- 1. Bottom-Left Major Anchor -->
+  <div id="alpona-unit-1" class="terracotta-frame side-element-hidden fixed -bottom-16 -left-16 w-64 h-64 z-10 pointer-events-none p-1.5 anim-spin-slow">
     <canvas id="alp-canvas-1" width="300" height="300" class="w-full h-full"></canvas>
   </div>
 
-  <!-- 2. Bottom-Center/Left Flank -->
-  <div id="alpona-unit-2" class="terracotta-frame side-element-hidden fixed -bottom-8 left-[18%] w-28 h-28 z-10 pointer-events-none p-1 anim-spin-reverse">
+  <!-- 2. Bottom-Center/Lower Flank (Shifted Left) -->
+  <div id="alpona-unit-2" class="terracotta-frame side-element-hidden fixed -bottom-14 left-[22%] w-48 h-48 z-10 pointer-events-none p-1.5 anim-spin-reverse">
     <canvas id="alp-canvas-2" width="300" height="300" class="w-full h-full"></canvas>
   </div>
 
   <!-- 3. Lower-Right Border Flank -->
-  <div id="alpona-unit-3" class="terracotta-frame side-element-hidden fixed top-2/3 -right-10 w-32 h-32 z-10 pointer-events-none p-1 anim-spin-slow">
+  <div id="alpona-unit-3" class="terracotta-frame side-element-hidden fixed top-2/3 -right-14 w-56 h-56 z-10 pointer-events-none p-1.5 anim-spin-slow">
     <canvas id="alp-canvas-3" width="300" height="300" class="w-full h-full"></canvas>
   </div>
 
   <!-- 4. Mid-Right Edge Flank -->
-  <div id="alpona-unit-4" class="terracotta-frame side-element-hidden fixed top-1/4 -right-8 w-28 h-28 z-10 pointer-events-none p-1 anim-spin-reverse">
+  <div id="alpona-unit-4" class="terracotta-frame side-element-hidden fixed top-1/3 -right-12 w-52 h-52 z-10 pointer-events-none p-1.5 anim-spin-reverse">
     <canvas id="alp-canvas-4" width="300" height="300" class="w-full h-full"></canvas>
   </div>
 
   <!-- 5. Top-Right Major Anchor -->
-  <div id="alpona-unit-5" class="terracotta-frame side-element-hidden fixed -top-10 -right-10 w-36 h-36 z-10 pointer-events-none p-1 anim-spin-slow">
+  <div id="alpona-unit-5" class="terracotta-frame side-element-hidden fixed -top-16 -right-16 w-64 h-64 z-10 pointer-events-none p-1.5 anim-spin-slow">
     <canvas id="alp-canvas-5" width="300" height="300" class="w-full h-full"></canvas>
   </div>
 
-  <!-- HEADER -->
-  <header class="w-full max-w-sm mx-auto text-center pt-2 pb-1 relative z-20">
-    <div class="inline-block px-3.5 py-1 rounded-full bg-white/90 border border-rose-200 text-[11px] tracking-widest uppercase font-extrabold text-rose-700 shadow-sm backdrop-blur">
+  <!-- TOP HEADER -->
+  <header class="w-full max-w-xl mx-auto text-center pt-2 pb-1 relative z-20">
+    <div class="inline-block px-4 py-1 rounded-full bg-white/90 border border-rose-200 text-xs tracking-widest uppercase font-extrabold text-rose-700 shadow-sm backdrop-blur">
       Niladri & Nikita • 25th Milestone
     </div>
   </header>
 
   <!-- ========================================================== -->
-  <!-- MOBILE MAIN CONTAINER                                      -->
+  <!-- MAIN WORKSPACE: DEAD-CENTER CARD + HIDDEN FAR LEFT CAKE    -->
   <!-- ========================================================== -->
-  <div class="w-full max-w-sm mx-auto my-auto py-2 relative z-20 flex flex-col items-center">
+  <div class="w-full max-w-7xl mx-auto my-auto py-2 relative z-20 flex items-center justify-center min-h-[580px]">
 
-    <!-- COMPACT MOBILE PROGRESSIVE CAKE (EMBEDDED ABOVE CARD) -->
-    <div id="cake-wrapper" class="side-element-hidden w-full flex flex-col items-center mb-3 transition-all duration-700">
-      <div class="glass-panel rounded-2xl px-3 py-2.5 w-full flex flex-col items-center shadow-md">
+    <!-- ========================================================== -->
+    <!-- LEFT SIDE: PROGRESSIVE BIRTHDAY CAKE (HIDDEN ON RELOAD)    -->
+    <!-- ========================================================== -->
+    <div id="cake-wrapper" class="side-element-hidden hidden xl:flex absolute left-4 2xl:left-10 flex-col items-center justify-center p-3 text-center z-10 transition-all duration-1000">
+      <div class="glass-panel rounded-3xl p-5 w-full max-w-[260px] flex flex-col items-center shadow-lg">
         
-        <!-- Scaled Mobile Cake Stack -->
-        <div class="relative w-44 h-36 flex flex-col justify-end items-center pb-1">
+        <!-- Cake Stack Container -->
+        <div class="relative w-52 h-60 flex flex-col justify-end items-center pb-2">
+          
           <!-- Topper (Tier 5) -->
-          <div id="cake-tier-5" class="cake-tier flex flex-col items-center mb-0.5">
-            <span class="text-[10px] font-black text-amber-600 bg-amber-100 border border-amber-300 px-1.5 py-0.5 rounded-full shadow-sm">👑 25</span>
-            <span class="text-xs">🕯️</span>
+          <div id="cake-tier-5" class="cake-tier flex flex-col items-center mb-1">
+            <span class="text-xs font-black text-amber-500 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-full shadow-sm">👑 25</span>
+            <span class="text-sm">🕯️</span>
           </div>
 
           <!-- Tier 4: Gold Pearls & Rose Glaze -->
-          <div id="cake-tier-4" class="cake-tier w-20 h-4 rounded-t bg-gradient-to-r from-rose-300 via-pink-300 to-rose-300 border border-rose-400 shadow-sm flex items-center justify-around px-2">
-            <div class="w-1 h-1 rounded-full bg-amber-200"></div>
-            <div class="w-1 h-1 rounded-full bg-amber-200"></div>
-            <div class="w-1 h-1 rounded-full bg-amber-200"></div>
+          <div id="cake-tier-4" class="cake-tier w-24 h-6 rounded-t-lg bg-gradient-to-r from-rose-300 via-pink-300 to-rose-300 border border-rose-400 shadow-sm flex items-center justify-around px-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-200"></div>
           </div>
 
           <!-- Tier 3: Chocolate Drizzle -->
-          <div id="cake-tier-3" class="cake-tier w-28 h-5 rounded-t bg-gradient-to-r from-amber-800 via-amber-900 to-amber-800 border border-amber-950 shadow-sm flex items-center justify-around px-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-rose-300"></div>
-            <div class="w-1.5 h-1.5 rounded-full bg-rose-300"></div>
-            <div class="w-1.5 h-1.5 rounded-full bg-rose-300"></div>
+          <div id="cake-tier-3" class="cake-tier w-32 h-7 rounded-t-lg bg-gradient-to-r from-amber-800 via-amber-900 to-amber-800 border border-amber-950 shadow-sm flex items-center justify-around px-3">
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
+            <div class="w-2 h-2 rounded-full bg-rose-300"></div>
           </div>
 
           <!-- Tier 2: Strawberry Cream -->
-          <div id="cake-tier-2" class="cake-tier w-34 h-6 rounded-t bg-gradient-to-r from-rose-400 via-pink-400 to-rose-400 border border-rose-500 shadow-sm flex items-center justify-around px-3">
-            <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-            <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-            <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+          <div id="cake-tier-2" class="cake-tier w-40 h-9 rounded-t-lg bg-gradient-to-r from-rose-400 via-pink-400 to-rose-400 border border-rose-500 shadow-sm flex items-center justify-around px-4">
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
+            <div class="w-2 h-2 rounded-full bg-white"></div>
           </div>
 
           <!-- Tier 1: Vanilla Sponge Foundation -->
-          <div id="cake-tier-1" class="cake-tier w-40 h-7 rounded-t bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-100 border border-amber-300 shadow-sm flex items-center justify-around px-4">
-            <div class="w-2 h-2 rounded-full bg-rose-400"></div>
-            <div class="w-2 h-2 rounded-full bg-rose-400"></div>
-            <div class="w-2 h-2 rounded-full bg-rose-400"></div>
+          <div id="cake-tier-1" class="cake-tier w-48 h-11 rounded-t-lg bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-100 border border-amber-300 shadow-md flex items-center justify-around px-5">
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
           </div>
 
           <!-- Base Pedestal Platter -->
-          <div class="w-44 h-2.5 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 rounded-full border border-amber-400 shadow-sm"></div>
+          <div class="w-52 h-3 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 rounded-full border-2 border-amber-400 shadow-md"></div>
+          <div class="w-20 h-3.5 bg-amber-400/80 rounded-b-lg border border-amber-500"></div>
         </div>
 
-        <div class="text-[10px] font-bold text-rose-800 uppercase tracking-wider bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full shadow-sm mt-1">
-          ৫-লেয়ার বার্থডে কেক 🎂
+        <div class="text-xs font-bold text-rose-800 uppercase tracking-wider bg-rose-50 border border-rose-200 px-3 py-1 rounded-full shadow-sm mt-2">
+          ৫-লেয়ার বার্থডে কেক
         </div>
+        <p class="text-xs font-medium text-stone-600 mt-1">
+          প্রতিটি সঠিক উত্তরে কেক তৈরি হচ্ছে 🎂
+        </p>
       </div>
     </div>
 
-    <!-- MAIN INTERACTIVE GLASS CARD (FOCAL POINT) -->
-    <main class="w-full relative z-20">
+    <!-- ========================================================== -->
+    <!-- DEAD CENTER: ONLY INTERACTIVE GLASS CARD ON RELOAD        -->
+    <!-- ========================================================== -->
+    <main class="w-full max-w-lg mx-auto relative z-20">
 
       <!-- STAGE 0: LOGIN GATE -->
-      <section id="stage-login" class="glass-panel rounded-3xl p-5 text-center space-y-4 relative overflow-hidden">
-        <div class="w-16 h-16 mx-auto rounded-full bg-rose-100 border-2 border-rose-300 flex items-center justify-center text-2xl shadow-inner">
+      <section id="stage-login" class="glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6 relative overflow-hidden">
+        <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 border-2 border-rose-300 flex items-center justify-center text-3xl shadow-inner">
           🔐
         </div>
         
-        <div class="space-y-1.5">
-          <h1 class="text-2xl font-extrabold text-rose-800 calligraphy">
+        <div class="space-y-2">
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
             স্বাগতম, Nikita!
           </h1>
-          <p class="text-sm text-stone-700 font-semibold leading-relaxed">
+          <p class="text-base sm:text-lg text-stone-700 font-semibold leading-relaxed">
             তোমার ২৫তম জন্মদিনের ভালোবাসার ডায়েরি খুলতে সিক্রেট পাসকোডটি লেখো:
           </p>
         </div>
 
-        <form id="login-form" class="space-y-3 max-w-xs mx-auto relative min-h-[140px]">
+        <form id="login-form" class="space-y-4 max-w-sm mx-auto relative min-h-[160px]">
           <input 
             id="passcode-input" 
             type="password" 
             placeholder="Passcode লিখুন..." 
-            class="glass-input w-full px-4 py-2.5 rounded-2xl text-base text-center tracking-widest font-bold text-stone-800 focus:outline-none focus:border-rose-500 shadow-inner"
+            class="glass-input w-full px-4 py-3 rounded-2xl text-base text-center tracking-widest font-bold text-stone-800 focus:outline-none focus:border-rose-500 shadow-inner"
             required
           />
 
           <button 
             id="runaway-btn"
             type="submit" 
-            class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 font-bold text-sm tracking-wider uppercase text-white shadow-lg shadow-rose-600/30 active:scale-[0.98]">
+            class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 font-bold text-sm tracking-wider uppercase text-white shadow-lg shadow-rose-600/30 active:scale-[0.98]">
             ভেরিফাই করুন ❯
           </button>
 
-          <p id="tease-prompt" class="text-xs font-bold text-rose-600 min-h-[18px] transition-all"></p>
-          <p id="login-err" class="text-xs font-bold text-rose-600 hidden">ভুল পাসকোড! আরেকবার চেষ্টা করো ❤️</p>
+          <p id="tease-prompt" class="text-xs font-bold text-rose-600 min-h-[20px] transition-all"></p>
+          <p id="login-err" class="text-sm font-bold text-rose-600 hidden">ভুল পাসকোড! আরেকবার চেষ্টা করো ❤️</p>
         </form>
       </section>
 
       <!-- STAGE 1: TIME-LOCKED WAITING ROOM -->
-      <section id="stage-waiting" class="hidden glass-panel rounded-3xl p-5 text-center space-y-4">
-        <div class="space-y-2">
-          <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-2xl shadow-inner">
+      <section id="stage-waiting" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6">
+        <div class="space-y-3">
+          <div class="w-20 h-20 mx-auto rounded-2xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-3xl shadow-inner">
             ⏳
           </div>
           
-          <h2 class="text-2xl font-extrabold text-rose-800 calligraphy">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
             স্বাগতম, Nikita!
           </h2>
           
-          <p class="text-sm text-stone-700 font-semibold leading-relaxed">
-            তুমি ভেরিফায়েড! Niladri তোমার জন্য বিশেষ উপহার সাজিয়ে রেখেছে, কিন্তু ঘড়ির কাঁটা ১২টা না ছোঁয়া পর্যন্ত সিন্দুক তালাবন্ধ!
+          <p class="text-base sm:text-lg text-stone-700 font-semibold leading-relaxed px-1">
+            তুমি সফলভাবে ভেরিফায়েড। Niladri তোমার জন্য একটা বিশেষ আয়োজন সাজিয়ে রেখেছে, কিন্তু ঘড়ির কাঁটা ১২টা না ছোঁয়া পর্যন্ত আসল সিন্দুক তালাবন্ধ!
           </p>
 
-          <p class="text-xs text-rose-600 font-bold">
-            অপেক্ষার ফল মিষ্টির চেয়েও মিষ্টি হয়! 🍰✨
+          <p class="text-sm text-rose-600 font-bold">
+            ২৫-এ পা রাখার আগে তর সইছে না তো? একটু ধৈর্য ধরো—অপেক্ষার ফল নাকি মিষ্টির চেয়েও মিষ্টি হয়! 🍰✨
           </p>
         </div>
 
         <!-- Live Countdown Grid -->
-        <div class="grid grid-cols-4 gap-1.5 text-center pt-1">
-          <div class="bg-white/90 border border-rose-200 p-2 rounded-xl shadow-sm">
-            <span id="days" class="text-2xl font-black font-mono text-rose-700">00</span>
-            <span class="block text-[9px] uppercase tracking-wider font-bold text-stone-500">Days</span>
+        <div class="grid grid-cols-4 gap-2.5 text-center pt-1">
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="days" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Days</span>
           </div>
-          <div class="bg-white/90 border border-rose-200 p-2 rounded-xl shadow-sm">
-            <span id="hours" class="text-2xl font-black font-mono text-rose-700">00</span>
-            <span class="block text-[9px] uppercase tracking-wider font-bold text-stone-500">Hours</span>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="hours" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Hours</span>
           </div>
-          <div class="bg-white/90 border border-rose-200 p-2 rounded-xl shadow-sm">
-            <span id="minutes" class="text-2xl font-black font-mono text-rose-700">00</span>
-            <span class="block text-[9px] uppercase tracking-wider font-bold text-stone-500">Mins</span>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="minutes" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Mins</span>
           </div>
-          <div class="bg-white/90 border border-rose-200 p-2 rounded-xl shadow-sm">
-            <span id="seconds" class="text-2xl font-black font-mono text-rose-700">00</span>
-            <span class="block text-[9px] uppercase tracking-wider font-bold text-stone-500">Secs</span>
+          <div class="bg-white/90 border border-rose-200 p-3 rounded-2xl shadow-sm">
+            <span id="seconds" class="text-3xl sm:text-4xl font-black font-mono text-rose-700">00</span>
+            <span class="block text-xs uppercase tracking-wider font-bold text-stone-500 mt-1">Secs</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-1.5 pt-1 text-[11px] font-bold text-rose-800">
-          <div class="p-2 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center">
-            <span>🔒 পায়েস</span>
+        <div class="grid grid-cols-3 gap-2 pt-1 text-xs font-bold text-rose-800">
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>পায়েস পর্ব</span>
           </div>
-          <div class="p-2 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center">
-            <span>🔒 ধাঁধা</span>
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>স্মৃতি ও ধাঁধা</span>
           </div>
-          <div class="p-2 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center">
-            <span>🔒 উপহার</span>
+          <div class="p-2.5 rounded-xl bg-white/70 border border-rose-200 flex flex-col items-center gap-1">
+            <span>🔒</span>
+            <span>সেরা উপহার</span>
           </div>
         </div>
       </section>
 
       <!-- STAGE 2: PAYESH RITUAL -->
-      <section id="stage-payesh" class="hidden glass-panel rounded-3xl p-5 text-center space-y-4">
-        <div class="space-y-2">
-          <div class="inline-block px-3 py-1 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-xs font-bold">
+      <section id="stage-payesh" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6">
+        <div class="space-y-3">
+          <div class="inline-block px-4 py-1.5 rounded-full bg-rose-100 border border-rose-300 text-rose-700 text-base font-bold">
             শুভ ২৫তম জন্মদিন, Nikita! 🌸
           </div>
           
-          <h2 class="text-2xl font-extrabold text-rose-800 calligraphy">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-rose-800 calligraphy">
             আগে একটু পায়েস মুখ করো
           </h2>
           
-          <p class="text-xs text-stone-700 font-semibold leading-relaxed">
-            তোমার ২৫তম জন্মদিনের শুরুতে Niladri-র পক্ষ থেকে এই ঐতিহ্যবাহী মাটির বাটির পায়েস।
+          <p class="text-base sm:text-lg text-stone-700 font-semibold max-w-md mx-auto leading-relaxed">
+            তোমার ২৫তম জন্মদিনের শুরুতে Niladri-র পক্ষ থেকে এই ঐতিহ্যবাহী মাটির বাটির তৈরি পায়েস।
           </p>
         </div>
 
-        <!-- Clay Pot Graphic -->
-        <div class="py-1 flex flex-col items-center justify-center">
-          <div class="flex gap-2 text-stone-400 text-xs mb-0.5 steam-anim select-none font-mono">
+        <!-- Pure Terracotta Clay Pot -->
+        <div class="py-2 flex flex-col items-center justify-center">
+          <div class="flex gap-3 text-stone-400 text-base mb-1 steam-anim select-none font-mono">
             <span>~</span><span>~</span><span>~</span>
           </div>
-          <div class="w-28 h-20 bg-gradient-to-b from-[#a44222] to-[#6d250e] rounded-b-[60px] rounded-t-lg border-4 border-[#4a1708] shadow-xl relative flex items-center justify-center">
-            <div class="absolute top-1 w-24 h-5 bg-[#fff8ea] rounded-full border border-amber-300 flex items-center justify-center gap-1.5 shadow-inner">
-              <div class="w-2 h-1 bg-amber-700 rounded-full rotate-12"></div>
-              <div class="w-1.5 h-1.5 bg-amber-600 rounded-full"></div>
-              <div class="w-2 h-1 bg-amber-700 rounded-full -rotate-12"></div>
+          <div class="w-36 h-24 bg-gradient-to-b from-[#a44222] to-[#6d250e] rounded-b-[80px] rounded-t-xl border-4 border-[#4a1708] shadow-2xl relative flex items-center justify-center">
+            <div class="absolute top-1.5 w-32 h-7 bg-[#fff8ea] rounded-full border-2 border-amber-300 flex items-center justify-center gap-2 shadow-inner">
+              <div class="w-2.5 h-1.5 bg-amber-700 rounded-full rotate-12"></div>
+              <div class="w-2 h-2 bg-amber-600 rounded-full"></div>
+              <div class="w-2.5 h-1.5 bg-amber-700 rounded-full -rotate-12"></div>
             </div>
-            <span class="text-2xl pt-1">🥄</span>
+            <span class="text-3xl pt-2">🥄</span>
           </div>
-          <div class="w-34 h-2.5 bg-[#8b3519] border-t-2 border-[#541e0d] rounded-full mt-1"></div>
+          <div class="w-44 h-3 bg-[#8b3519] border-t-2 border-[#541e0d] rounded-full mt-1"></div>
         </div>
 
         <button 
           onclick="goToWordGame()" 
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 text-white font-extrabold text-sm tracking-wide shadow-lg shadow-rose-500/30 active:scale-[0.98] transition">
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 hover:brightness-105 text-white font-extrabold text-base tracking-wide shadow-xl shadow-rose-500/30 active:scale-[0.98] transition">
           পায়েস খাওয়া শেষ? Let’s Play ❯
         </button>
       </section>
 
       <!-- STAGE 3: ONE-CARD-AT-A-TIME QUIZ -->
-      <section id="stage-game" class="hidden space-y-3">
+      <section id="stage-game" class="hidden space-y-4">
         
         <!-- Pinned Top Declaration -->
-        <div class="glass-panel rounded-2xl p-3 text-center space-y-1">
-          <span class="text-[10px] uppercase font-extrabold tracking-widest text-rose-700">The Secret Sentence</span>
-          <div id="sentence-preview" class="text-[11px] font-black font-mono tracking-wider text-stone-600 leading-snug">
+        <div class="glass-panel rounded-2xl p-4 text-center space-y-1">
+          <span class="text-[11px] uppercase font-extrabold tracking-widest text-rose-700">The Secret Sentence</span>
+          <div id="sentence-preview" class="text-xs sm:text-sm font-black font-mono tracking-wider text-stone-600 leading-relaxed">
             FROM HATGACCHA TO BAGNAN: _ _ _ _ _ _ IS _ _ _ _ _ _ _'S FOREVER NUMBER _ _ _
           </div>
-          <div class="w-full bg-rose-200/80 rounded-full h-1 mt-1.5 overflow-hidden">
-            <div id="progress-bar" class="bg-rose-600 h-1 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full bg-rose-200/80 rounded-full h-1.5 mt-2 overflow-hidden">
+            <div id="progress-bar" class="bg-rose-600 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
 
         <!-- Active Single Card -->
-        <div class="glass-panel rounded-3xl p-5 space-y-3.5 text-center">
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-5 text-center">
           
-          <div class="flex items-center justify-between border-b border-rose-200/80 pb-1.5">
-            <span id="quiz-step-label" class="text-[11px] font-bold text-rose-600 uppercase tracking-wider">প্রশ্ন ১ / ৫</span>
-            <span class="text-[11px] font-bold text-stone-500">Nikita's Special</span>
+          <div class="flex items-center justify-between border-b border-rose-200/80 pb-2">
+            <span id="quiz-step-label" class="text-xs font-bold text-rose-600 uppercase tracking-wider">প্রশ্ন ১ / ৫</span>
+            <span class="text-xs font-bold text-stone-500">Niladri & Nikita Special</span>
           </div>
 
-          <div class="w-14 h-14 mx-auto rounded-2xl bg-rose-100/90 border-2 border-rose-200 shadow-sm flex items-center justify-center text-2xl">
+          <div class="w-20 h-20 mx-auto rounded-3xl bg-rose-100/90 border-2 border-rose-200 shadow-sm flex items-center justify-center text-4xl">
             <span id="card-icon">🎓</span>
           </div>
 
-          <p id="card-question" class="text-sm text-stone-900 font-bold leading-relaxed px-0.5">
+          <p id="card-question" class="text-base sm:text-lg text-stone-900 font-bold leading-relaxed px-1">
             Hatgachha-র সেই মেয়েটি, যে Ballygunge Science College-এ Zoology পড়ে আজ Niladri-র গোটা পৃথিবী:
           </p>
 
-          <div class="space-y-2.5 max-w-xs mx-auto">
+          <div class="space-y-3 max-w-sm mx-auto">
             <input 
               id="card-input" 
               type="text" 
-              class="glass-input w-full px-3 py-2.5 rounded-2xl text-center uppercase tracking-widest font-extrabold text-stone-900 focus:outline-none focus:border-rose-500 text-sm shadow-inner"
+              class="glass-input w-full px-4 py-3 rounded-2xl text-center uppercase tracking-widest font-extrabold text-stone-900 focus:outline-none focus:border-rose-500 text-sm shadow-inner"
               placeholder="6 Letters (N _ _ _ _ _)" 
               maxlength="6"
             />
             <button 
               id="card-btn"
               onclick="submitCurrentCard()" 
-              class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:brightness-105 text-white text-xs font-extrabold tracking-wider transition shadow-md shadow-rose-400/30">
+              class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 hover:brightness-105 text-white text-sm font-extrabold tracking-wider transition shadow-md shadow-rose-400/30">
               উত্তর চেক করুন ❯
             </button>
             <p id="card-feedback" class="text-xs font-bold text-emerald-600 hidden">একদম ঠিক উত্তর! ❤️</p>
@@ -383,38 +396,38 @@
       </section>
 
       <!-- STAGE 4: CADBURY CELEBRATIONS FINALE -->
-      <section id="stage-cadbury" class="hidden glass-panel rounded-3xl p-5 text-center space-y-4 border-2 border-amber-300">
+      <section id="stage-cadbury" class="hidden glass-panel rounded-3xl p-6 sm:p-9 text-center space-y-6 border-2 border-amber-300">
         
-        <div class="space-y-1">
-          <span class="text-[10px] uppercase font-extrabold tracking-widest text-rose-600">Champion Prize Unlocked</span>
-          <h2 class="text-2xl font-extrabold serif-display text-rose-900">
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-rose-600">Champion Prize Unlocked</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold serif-display text-rose-900">
             Happy 25th Birthday, Nikita!
           </h2>
-          <p class="text-xs text-rose-700 font-bold tracking-wide">
+          <p class="text-sm sm:text-base text-rose-700 font-bold tracking-wide">
             "FROM HATGACCHA TO BAGNAN: NIKITA IS NILADRI'S FOREVER NUMBER ONE"
           </p>
         </div>
 
         <!-- Cadbury Box Graphic -->
-        <div id="cadbury-box-wrap" onclick="openCelebrationsGift()" class="cursor-pointer group relative max-w-[190px] mx-auto py-1 transition transform active:scale-95">
-          <div class="bg-gradient-to-br from-[#531799] to-[#250047] border-2 border-amber-300 p-4 rounded-3xl shadow-xl flex flex-col items-center justify-center space-y-1.5 text-white">
-            <div class="text-4xl group-hover:scale-110 transition">🎁</div>
-            <div class="serif-display text-amber-300 font-bold text-base tracking-wide">
+        <div id="cadbury-box-wrap" onclick="openCelebrationsGift()" class="cursor-pointer group relative max-w-[220px] mx-auto py-2 transition transform hover:scale-105">
+          <div class="bg-gradient-to-br from-[#531799] to-[#250047] border-2 border-amber-300 p-5 rounded-3xl shadow-2xl flex flex-col items-center justify-center space-y-2 text-white">
+            <div class="text-5xl group-hover:scale-110 transition">🎁</div>
+            <div class="serif-display text-amber-300 font-bold text-lg tracking-wide">
               Cadbury
             </div>
-            <div class="text-[9px] uppercase tracking-widest font-black text-amber-200 bg-amber-400/25 px-2 py-0.5 rounded">
+            <div class="text-[10px] uppercase tracking-widest font-black text-amber-200 bg-amber-400/25 px-2.5 py-0.5 rounded">
               Celebrations
             </div>
           </div>
-          <p id="box-instruction" class="text-[11px] text-rose-700 mt-2 underline font-bold">Tap to open Celebrations box</p>
+          <p id="box-instruction" class="text-xs text-rose-700 mt-3 underline font-bold">Tap to open your Celebrations box</p>
         </div>
 
-        <div id="gift-message" class="hidden p-4 rounded-2xl bg-white/95 border border-rose-300 space-y-1.5 text-center shadow-md">
-          <p class="text-sm font-bold text-rose-800 leading-snug">
-            ✨ Biriyani আর Fuchka তো থাকবেই, কিন্তু আজকের রাতটা শুরু হোক চকোলেট দিয়ে...
+        <div id="gift-message" class="hidden p-5 rounded-2xl bg-white/95 border border-rose-300 space-y-2 text-center shadow-md">
+          <p class="text-base sm:text-lg font-bold text-rose-800 leading-snug">
+            ✨ Biriyani আর Fuchka তো থাকবেই, কিন্তু আজকের রাতটা শুরু হোক একটু চকোলেট দিয়ে...
           </p>
-          <p class="text-xs text-stone-800 leading-relaxed font-semibold">
-            Screen-এর মিষ্টি শেষ! এবার পাশে ফিরে Niladri-র থেকে আসল <strong>Cadbury Celebrations</strong>-এর বাক্সটা চেয়ে নাও! 🍫❤️
+          <p class="text-sm text-stone-800 leading-relaxed font-semibold">
+            Screen-এর মিষ্টি শেষ! এবার পাশে ফিরে Niladri-র থেকে তোমার আসল <strong>Cadbury Celebrations</strong>-এর বাক্সটা চেয়ে নাও! 🍫❤️
           </p>
         </div>
 
@@ -424,13 +437,13 @@
 
   </div>
 
-  <footer class="w-full text-center pb-2 text-[11px] text-stone-500 font-medium relative z-20">
+  <footer class="w-full text-center pb-2 text-xs text-stone-500 font-medium relative z-20">
     Crafted with ❤️ by Niladri for Nikita’s 25th
   </footer>
 
   <script>
     // ==========================================================
-    // 1. INTRICATE CANVAS ALPONA RENDERER
+    // 1. INTRICATE CANVAS ALPONA RENDERER (ALL 5 CANVASES)
     // ==========================================================
     const alponaCanvases = [
       document.getElementById("alp-canvas-1"),
@@ -449,10 +462,11 @@
       actx.lineCap = "round";
       actx.lineJoin = "round";
 
+      // Base linework styling
       actx.strokeStyle = "#ffffff";
       actx.lineWidth = 1.8;
 
-      // CORE SEED
+      // --- CORE SEED (Center Rings & Beads) ---
       actx.beginPath();
       actx.arc(cx, cy, 6, 0, Math.PI * 2);
       actx.stroke();
@@ -471,7 +485,7 @@
         actx.stroke();
       }
 
-      // STAGE 1: LOTUS TEARDROPS
+      // --- STAGE 1: RADIAL LOTUS TEARDROPS (R = 24 to 46) ---
       if (stage >= 1) {
         const petals = 12;
         for (let i = 0; i < petals; i++) {
@@ -480,12 +494,14 @@
           actx.translate(cx, cy);
           actx.rotate(a);
 
+          // Outer teardrop petal
           actx.beginPath();
           actx.moveTo(-5, 23);
           actx.quadraticCurveTo(-9, 36, 0, 47);
           actx.quadraticCurveTo(9, 36, 5, 23);
           actx.stroke();
 
+          // Inner contour loop
           actx.beginPath();
           actx.moveTo(-2.5, 26);
           actx.quadraticCurveTo(-4.5, 35, 0, 42);
@@ -500,7 +516,7 @@
         actx.stroke();
       }
 
-      // STAGE 2: ARCHED CRESTS & EYE EMBLEMS
+      // --- STAGE 2: ARCHED CRESTS WITH EYE EMBLEMS (R = 52 to 74) ---
       if (stage >= 2) {
         const crests = 12;
         for (let i = 0; i < crests; i++) {
@@ -509,18 +525,21 @@
           actx.translate(cx, cy);
           actx.rotate(a);
 
+          // Outer bell arch
           actx.beginPath();
           actx.moveTo(-11, 51);
           actx.quadraticCurveTo(-15, 64, 0, 75);
           actx.quadraticCurveTo(15, 64, 11, 51);
           actx.stroke();
 
+          // Inner bell arch
           actx.beginPath();
           actx.moveTo(-6.5, 53);
           actx.quadraticCurveTo(-9, 62, 0, 68);
           actx.quadraticCurveTo(9, 62, 6.5, 53);
           actx.stroke();
 
+          // Center floating eye bead
           actx.beginPath();
           actx.arc(0, 60, 2.8, 0, Math.PI * 2);
           actx.fillStyle = "#ffffff";
@@ -529,6 +548,7 @@
           actx.restore();
         }
 
+        // Mid double-band
         actx.beginPath();
         actx.arc(cx, cy, 79, 0, Math.PI * 2);
         actx.stroke();
@@ -538,7 +558,7 @@
         actx.stroke();
       }
 
-      // STAGE 3: SCALLOPED PETALS
+      // --- STAGE 3: INTERLOCKING SCALLOPED PETAL BORDERS (R = 86 to 106) ---
       if (stage >= 3) {
         const scallops = 16;
         for (let i = 0; i < scallops; i++) {
@@ -547,6 +567,7 @@
           actx.translate(cx, cy);
           actx.rotate(a);
 
+          // Double-lobed scalloped mantle
           actx.beginPath();
           actx.moveTo(-13, 85);
           actx.quadraticCurveTo(-15, 96, -7, 102);
@@ -554,6 +575,7 @@
           actx.quadraticCurveTo(15, 96, 13, 85);
           actx.stroke();
 
+          // Inner floral spearhead
           actx.beginPath();
           actx.moveTo(0, 87);
           actx.lineTo(0, 97);
@@ -567,7 +589,7 @@
         actx.stroke();
       }
 
-      // STAGE 4: WAVED PEARL BORDER
+      // --- STAGE 4: CONTINUOUS WAVED BORDER & PEARLS (R = 109 to 123) ---
       if (stage >= 4) {
         const outerWaves = 24;
         for (let i = 0; i < outerWaves; i++) {
@@ -576,10 +598,12 @@
           actx.translate(cx, cy);
           actx.rotate(a);
 
+          // Arch wave
           actx.beginPath();
           actx.arc(0, 114, 7.5, Math.PI, 0, false);
           actx.stroke();
 
+          // Mini petal bead
           actx.beginPath();
           actx.arc(0, 114, 2, 0, Math.PI * 2);
           actx.stroke();
@@ -592,7 +616,7 @@
         actx.stroke();
       }
 
-      // STAGE 5: PALMETTE CREST
+      // --- STAGE 5: GRAND PALMETTE CREST & TREFOIL BUDS (R = 126 to 148) ---
       if (stage >= 5) {
         const palmettes = 18;
         for (let i = 0; i < palmettes; i++) {
@@ -601,18 +625,21 @@
           actx.translate(cx, cy);
           actx.rotate(a);
 
+          // Center central tip petal
           actx.beginPath();
           actx.moveTo(0, 126);
           actx.quadraticCurveTo(-4, 137, 0, 147);
           actx.quadraticCurveTo(4, 137, 0, 126);
           actx.stroke();
 
+          // Left floret wing
           actx.beginPath();
           actx.moveTo(-2, 126);
           actx.quadraticCurveTo(-9, 133, -7, 142);
           actx.quadraticCurveTo(-3, 138, 0, 126);
           actx.stroke();
 
+          // Right floret wing
           actx.beginPath();
           actx.moveTo(2, 126);
           actx.quadraticCurveTo(9, 133, 7, 142);
@@ -634,8 +661,11 @@
       });
     }
 
-    // Reveal elements after login
+    // ==========================================================
+    // 2. REVEAL SIDE ELEMENTS AFTER AUTHENTICATION
+    // ==========================================================
     function revealSideElements() {
+      // Reveal 5 Alpona Canvases
       for (let i = 1; i <= 5; i++) {
         const el = document.getElementById(`alpona-unit-${i}`);
         if (el) {
@@ -643,6 +673,7 @@
           el.classList.add("side-element-visible");
         }
       }
+      // Reveal Cake
       const cake = document.getElementById("cake-wrapper");
       if (cake) {
         cake.classList.remove("side-element-hidden");
@@ -650,7 +681,9 @@
       }
     }
 
-    // Progressive Cake Tier Controller
+    // ==========================================================
+    // 3. PROGRESSIVE CAKE TIER CONTROLLER
+    // ==========================================================
     function setCakeStage(stage) {
       for (let i = 1; i <= 5; i++) {
         const tier = document.getElementById(`cake-tier-${i}`);
@@ -663,23 +696,25 @@
       }
     }
 
+    // Synchronize both cake tiers & Alponas
     function syncAllVisualProgress(stage) {
       renderAllMandalas(stage);
       setCakeStage(stage);
     }
 
+    // Initialize all with seed state (stage 0)
     syncAllVisualProgress(0);
 
     // ==========================================================
-    // 2. CONFIGURATION & TIME-GATE LOGIC
+    // 4. CONFIGURATION & TIME-GATE LOGIC
     // ==========================================================
     const SECRET_KEY = "love";
-    const TARGET_DATE = new Date("2026-09-06T00:00:00+05:30").getTime(); // Midnight IST
+    const TARGET_DATE = new Date("2026-09-05T00:00:00+05:30").getTime(); // Midnight IST
 
     let clockTimer = null;
     let unlocked = false;
 
-    // RUNAWAY BUTTON LOGIC (SAFE TOUCH BOUNDARIES FOR PHONES)
+    // --- RUNAWAY BUTTON LOGIC (AFTER PASSCODE ENTRY ONLY) ---
     let dodgeCount = 0;
     const maxDodges = 5;
     const runawayBtn = document.getElementById("runaway-btn");
@@ -692,10 +727,10 @@
 
     const wittyRemarks = [
       "পাসকোড ঠিক, কিন্তু ধরা এত সহজ নয়! 😜",
-      "ঘড়ির কাঁটা ১২টা বাজুক আগে! 🏃‍♀️",
-      "এত তাড়া কিসের? একটু ধৈর্য ধরো! ⏳",
-      "Niladri বলেছে ১২টার আগে ধরা বারণ! 🤫",
-      "লাস্ট সুযোগ... এবার ধরে ক্লিক করো! 🍰"
+      "ঘড়ির কাঁটা ১২টা বাজুক আগে! পালাচ্ছি... 🏃‍♀️",
+      "উফ্! এত তাড়া কিসের? আর কিছুক্ষণ ধৈর্য ধরো! ⏳",
+      "Niladri বলেছে ১২টার আগে এন্ট্রি পাওয়া বারণ! 🤫",
+      "লাস্ট সুযোগ... এবার ধরে ক্লিক করে দেখাও! 🍰"
     ];
 
     function isPasswordCorrect() {
@@ -706,11 +741,8 @@
       const now = Date.now();
       if (isPasswordCorrect() && now < TARGET_DATE && dodgeCount < maxDodges) {
         loginErr.classList.add("hidden");
-        
-        // Mobile-safe jump constraints (Never runs outside viewport)
-        const maxOffsetMobileX = Math.min((window.innerWidth / 2) - 50, 110);
-        const xOffset = (Math.random() - 0.5) * (maxOffsetMobileX * 2);
-        const yOffset = (Math.random() - 0.5) * 70;
+        const xOffset = (Math.random() - 0.5) * 230;
+        const yOffset = (Math.random() - 0.5) * 100;
         
         runawayBtn.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
         teasePrompt.innerText = wittyRemarks[dodgeCount % wittyRemarks.length];
@@ -720,7 +752,7 @@
           setTimeout(() => {
             teasePrompt.innerText = "ঠিক আছে, ধরা দিলাম! এবার ক্লিক করে ভেতরে এসো... ❤️";
             runawayBtn.style.transform = "translate(0px, 0px)";
-          }, 650);
+          }, 700);
         }
       }
     }
@@ -747,6 +779,7 @@
         return;
       }
 
+      // Hide login gate and smoothly reveal the decorative side elements
       loginStage.classList.add("hidden");
       revealSideElements();
       evaluateTimeGate();
@@ -785,7 +818,7 @@
     }
 
     // ==========================================================
-    // 3. STAGE 2: PAYESH RITUAL
+    // 5. STAGE 2: PAYESH RITUAL
     // ==========================================================
     function unlockPayeshStage() {
       if (unlocked) return;
@@ -794,8 +827,9 @@
       waitingStage.classList.add("hidden");
       document.getElementById("stage-payesh").classList.remove("hidden");
       
+      // Bloom Stage 1 on all Alponas & drop first cake tier
       syncAllVisualProgress(1);
-      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+      launchConfetti(['#e11d48', '#be185d', '#f43f5e', '#ffffff']);
     }
 
     function goToWordGame() {
@@ -805,12 +839,12 @@
     }
 
     // ==========================================================
-    // 4. ONE-BY-ONE QUIZ CARDS
+    // 6. ONE-BY-ONE QUIZ CARDS
     // ==========================================================
     const quizData = [
       {
         step: "প্রশ্ন ১ / ৫",
-        question: "১. Hatgachha-র সেই মেয়েটি, যে Ballygunge Science College-এ Zoology পড়ে আজ Niladri-র গোটা পৃথিবী:",
+        question: "১. ৮ই আগস্টের সেই প্রথম দেখা, যেখান থেকে শুরু হয়েছিল চিরদিনের পথচলা—আজ Niladri-র সেই গোটা পৃথিবীটি কে?",
         placeholder: "6 Letters (N _ _ _ _ _)",
         maxlength: 6,
         answer: "NIKITA",
@@ -875,10 +909,11 @@
         input.classList.add("border-emerald-500", "bg-emerald-50");
         document.getElementById("card-feedback").classList.remove("hidden");
 
-        confetti({ particleCount: 20, spread: 50, origin: { y: 0.7 } });
+        confetti({ particleCount: 25, spread: 60, origin: { y: 0.65 } });
 
         currentCardIndex++;
         
+        // Progressively bloom all perimeter Alponas & stack cake tiers together
         syncAllVisualProgress(currentCardIndex);
         updateTopSentence();
 
@@ -888,7 +923,7 @@
           } else {
             unlockCadburyCelebrations();
           }
-        }, 850);
+        }, 900);
 
       } else {
         input.classList.add("border-rose-500", "animate-pulse");
@@ -917,36 +952,37 @@
     }
 
     // ==========================================================
-    // 5. CADBURY CELEBRATIONS FINALE
+    // 7. CADBURY CELEBRATIONS FINALE
     // ==========================================================
     function unlockCadburyCelebrations() {
       document.getElementById("stage-game").classList.add("hidden");
       document.getElementById("stage-cadbury").classList.remove("hidden");
       
+      // Full bloom across all Alponas & completed cake
       syncAllVisualProgress(5);
-      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+      launchConfetti(['#e11d48', '#be185d', '#f43f5e', '#ffffff']);
     }
 
     function openCelebrationsGift() {
       document.getElementById("box-instruction").classList.add("hidden");
       document.getElementById("gift-message").classList.remove("hidden");
-      launchConfetti(['#ca5c3d', '#b91c1c', '#f59e0b', '#ffffff']);
+      launchConfetti(['#e11d48', '#be185d', '#f43f5e', '#ffffff']);
     }
 
     function launchConfetti(colors) {
-      const end = Date.now() + 2500;
+      const end = Date.now() + 3000;
       (function frame() {
         confetti({
-          particleCount: 2,
+          particleCount: 3,
           angle: 60,
-          spread: 50,
+          spread: 55,
           origin: { x: 0, y: 0.8 },
           colors: colors
         });
         confetti({
-          particleCount: 2,
+          particleCount: 3,
           angle: 120,
-          spread: 50,
+          spread: 55,
           origin: { x: 1, y: 0.8 },
           colors: colors
         });
